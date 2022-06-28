@@ -1,4 +1,6 @@
-﻿using System;
+﻿using crypto.Library.Api;
+using crypto.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,20 @@ namespace crypto
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ICurrencyEndpoint _currencyEndpoint;
+        public List<CurrencyModel> Currencies { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+
+            _currencyEndpoint = new CurrencyEndpoint();
         }
+
+        public async void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Currencies = await _currencyEndpoint.GetCurrencies(10, 0);
+        }
+
+
     }
 }
