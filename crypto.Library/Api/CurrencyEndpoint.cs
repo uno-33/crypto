@@ -10,26 +10,15 @@ namespace crypto.Library.Api
 {
     public class CurrencyEndpoint : ICurrencyEndpoint
     {
-        private ApiHelper _apiHelper;
-
-        public CurrencyEndpoint()
-        {
-            _apiHelper = new ApiHelper();
-        }
-
         public async Task<List<CurrencyModel>> GetCurrencies(int limit, int offset)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"assets?offset={offset}&limit={limit}"))
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync($"assets?offset={offset}&limit={limit}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<RootCurrenciesObject>();
-
-                    //var result = JsonConvert.DeserializeObject<RootCurrenciesObject>(strResult);
+                    var result = await response.Content.ReadAsAsync<RootModel<CurrencyModel>>();
 
                     return result.data;
-
-                    //return new List<CurrencyModel>();
                 }
                 else
                 {
@@ -38,5 +27,21 @@ namespace crypto.Library.Api
             }
         }
 
+        public async Task<List<MarketModel>> GetMarketsByCurrencyId(string currencyId,int limit, int offset)
+        {
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync($"assets/{currencyId}/markets?offset={offset}&limit={limit}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<RootModel<MarketModel>>();
+
+                    return result.data;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

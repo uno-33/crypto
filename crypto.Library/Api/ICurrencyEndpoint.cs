@@ -7,5 +7,6 @@ namespace crypto.Library.Api
     public interface ICurrencyEndpoint
     {
         Task<List<CurrencyModel>> GetCurrencies(int limit, int offset);
+        Task<List<MarketModel>> GetMarketsByCurrencyId(string currencyId, int limit, int offset);
     }
 }

@@ -19,8 +19,8 @@ namespace crypto.Library.Models
         public string quoteId { get; set; }
         public string baseSymbol { get; set; }
         public string quoteSymbol { get; set; }
-        public double volumeUsd24Hr { get; set; }
+        public double? volumeUsd24Hr { get; set; }
         public decimal priceUsd { get; set; }
-        public decimal volumePercent { get; set; }
+        public decimal? volumePercent { get; set; }
     }
 }

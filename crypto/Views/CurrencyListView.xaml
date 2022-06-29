@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="crypto.Views.CurrencyListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:crypto.Views" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"
+             d:DesignHeight="250" d:DesignWidth="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <StackPanel Margin="10">
+        
+        <DockPanel LastChildFill="False">
+            <Label DockPanel.Dock="Left" FontSize="24" FontWeight="Bold">CryptoInfo</Label>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBox Width="200" Margin="0 0 5 0" FontSize="24"></TextBox>
+                <Button Content="Search" Padding="5" FontSize="16" FontWeight="Bold" Command="{Binding SearchCommand}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <DataGrid ItemsSource="{Binding CurrencyList}" 
+                  GridLinesVisibility="None" 
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False"
+                  AutoGenerateColumns ="False"
+                  HeadersVisibility="Column"
+                  VerticalScrollBarVisibility="Visible"
+                  SelectedItem="{Binding SelectedCurrency}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding name}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding priceUsd}" />
+                <DataGridTextColumn Header="24h change(%)" Binding="{Binding changePercent24Hr}" />
+                <DataGridTextColumn Header="MarketCap" Binding="{Binding marketCapUsd}" />
+                <DataGridTextColumn Header="24h Volume" Binding="{Binding volumeUsd24Hr}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="View Details" Command="{Binding DetailsCommand}" Margin="0 10 0 0"/>
+
+    </StackPanel>
+</UserControl>

@@ -29,9 +29,4 @@ namespace crypto.Library.Models
         public float? changePercent24Hr { get; set; }
         public decimal vwap24Hr { get; set; }
     }
-
-    public class RootCurrenciesObject
-    {
-        public List<CurrencyModel> data { get; set; }
-    }
 }
