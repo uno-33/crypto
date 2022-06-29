@@ -20,7 +20,8 @@
             <Label DockPanel.Dock="Left" FontSize="24" FontWeight="Bold">CryptoInfo</Label>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBox Width="200" Margin="0 0 5 0" FontSize="24"></TextBox>
-                <Button Content="Search" Padding="5" FontSize="16" FontWeight="Bold" Command="{Binding SearchCommand}"/>
+                <Button Content="Search" Margin="0 0 5 0" Padding="5" FontSize="16" FontWeight="Bold" Command="{Binding SearchCommand}"/>
+                <Button Content="Refresh" Padding="5" FontSize="16" FontWeight="Bold" Command="{Binding RefreshCommand}"/>
             </StackPanel>
         </DockPanel>
 
@@ -30,18 +31,25 @@
                   CanUserReorderColumns="False"
                   AutoGenerateColumns ="False"
                   HeadersVisibility="Column"
-                  VerticalScrollBarVisibility="Visible"
-                  SelectedItem="{Binding SelectedCurrency}">
+                  SelectedItem="{Binding SelectedCurrency}"
+                  >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding name}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding priceUsd}" />
-                <DataGridTextColumn Header="24h change(%)" Binding="{Binding changePercent24Hr}" />
-                <DataGridTextColumn Header="MarketCap" Binding="{Binding marketCapUsd}" />
-                <DataGridTextColumn Header="24h Volume" Binding="{Binding volumeUsd24Hr}" />
+                <DataGridTextColumn Header="#" Binding="{Binding rank}" />
+                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding name}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Price" Binding="{Binding priceUsd, StringFormat={}{0:C}}" />
+                <DataGridTextColumn Width="*" Header="24h Change" Binding="{Binding changePercent24Hr, StringFormat={}{0:F}%}" />
+                <DataGridTextColumn Width="*" Header="Market Cap" Binding="{Binding marketCapUsd, StringFormat={}{0:C}}" />
+                <DataGridTextColumn Width="*" Header="24h Volume" Binding="{Binding volumeUsd24Hr, StringFormat={}{0:C}}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="View Details" Command="{Binding DetailsCommand}" Margin="0 10 0 0"/>
+        <Button Content="View Details" Command="{Binding DetailsCommand}" Margin="0 10 0 0" Padding="5"/>
 
     </StackPanel>
 </UserControl>

@@ -5,10 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:crypto" 
         xmlns:views="clr-namespace:crypto.Views"
+        xmlns:vms="clr-namespace:crypto.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="800">
 
     <Grid>
-        <views:CurrencyListView DataContext="{Binding CurrentViewModel}"/>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vms:CurrencyListViewModel}">
+                <views:CurrencyListView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:CurrencyDetailsViewModel}">
+                <views:CurrencyDetailsView/>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>

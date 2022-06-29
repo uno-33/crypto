@@ -1,4 +1,5 @@
-﻿using crypto.ViewModels;
+﻿using crypto.Stores;
+using crypto.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,11 +15,20 @@ namespace crypto
     /// </summary>
     public partial class App : Application
     {
+        private readonly NavigationStore _navigationStore;
+
+        public App()
+        {
+            _navigationStore = new NavigationStore();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            _navigationStore.CurrentViewModel = new CurrencyListViewModel(_navigationStore);
+
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel(_navigationStore)
             };
             MainWindow.Show();
 
