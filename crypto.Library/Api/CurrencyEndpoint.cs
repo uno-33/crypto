@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace crypto.Library.Api
 {
-    public class CurrencyEndpoint : ICurrencyEndpoint
+    public class CurrencyEndpoint
     {
         public async Task<List<CurrencyModel>> GetCurrencies(int limit, int offset)
         {
