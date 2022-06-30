@@ -40,6 +40,20 @@ namespace crypto.ViewModels
             }
         }
 
+        private string _searchText;
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set 
+            { 
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                (SearchCommand as DelegateCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+
         public ICommand SearchCommand { get; }
         public ICommand DetailsCommand { get; }
         public ICommand RefreshCommand { get; }
@@ -51,6 +65,7 @@ namespace crypto.ViewModels
             LoadedCommand = new DelegateCommand(LoadData);
             RefreshCommand = new DelegateCommand(LoadData);
             DetailsCommand = new DelegateCommand(LoadCurrencyDetailsView, (() => SelectedCurrency != null));
+            SearchCommand = new DelegateCommand(SearchCurrency, (() => SearchText != null && SearchText != String.Empty));
         }
 
         private async void LoadData()
@@ -63,6 +78,25 @@ namespace crypto.ViewModels
         private void LoadCurrencyDetailsView()
         {
             _navigationStore.CurrentViewModel = new CurrencyDetailsViewModel(_navigationStore, SelectedCurrency);
+        }
+
+        private async void SearchCurrency()
+        {
+            var currencyEndpoint = new CurrencyEndpoint();
+
+            var result = await currencyEndpoint.SearchCurrency(SearchText);
+
+            if(result != null)
+            {
+                var newList = new List<CurrencyModel>();
+                newList.Add(result);
+
+                CurrencyList = newList;
+            }
+            else
+            {
+                SearchText = String.Empty;
+            }
         }
     }
 }

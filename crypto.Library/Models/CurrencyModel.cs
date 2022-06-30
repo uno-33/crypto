@@ -27,6 +27,6 @@ namespace crypto.Library.Models
         public decimal volumeUsd24Hr { get; set; }
         public decimal priceUsd { get; set; }
         public float? changePercent24Hr { get; set; }
-        public decimal vwap24Hr { get; set; }
+        public decimal? vwap24Hr { get; set; }
     }
 }
