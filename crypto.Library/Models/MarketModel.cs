@@ -22,5 +22,21 @@ namespace crypto.Library.Models
         public double? volumeUsd24Hr { get; set; }
         public decimal priceUsd { get; set; }
         public decimal? volumePercent { get; set; }
+
+        public string Pair 
+        { 
+            get 
+            {
+                return $"{baseSymbol}/{quoteSymbol}";
+            }
+        }
+
+        public string Volume
+        {
+            get
+            {
+                return volumeUsd24Hr != null ? string.Format("{0:C} ({1:F}%)", volumeUsd24Hr, volumePercent) : "No data";
+            }
+        }
     }
 }

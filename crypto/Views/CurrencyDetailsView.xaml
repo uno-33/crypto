@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:crypto.Views" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="700" d:DesignWidth="800">
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -15,39 +15,78 @@
     </i:Interaction.Triggers>
     
     <StackPanel Margin="10">
+        <!--1 row-->
         <Button Command="{Binding GetBackCommand}" Width="40" Padding="5" Content="Back" HorizontalAlignment="Left"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Currency.name}"/>
-            <TextBlock Text="{Binding Currency.symbol}"/>
-            <TextBlock Text="{Binding Currency.rank}"/>
+        
+        <!--2 row-->
+        <StackPanel Orientation="Horizontal" Margin="0 15 0 35" HorizontalAlignment="Center">
+            
+            <TextBlock Text="{Binding Currency.name}" Margin="0 0 10 0" FontSize="24" FontFamily="Segoe UI Light"
+                       VerticalAlignment="Center"/>
+            
+            <TextBlock Text="{Binding Currency.symbol}" 
+                       Margin="10 0 10 0" FontSize="20" FontFamily="Courier New" FontWeight="DemiBold"
+                       Background="DarkOrange" VerticalAlignment="Center" Padding="5"/>
+            
+            <TextBlock Text="{Binding Currency.rank, StringFormat=#{0:D}}" FontSize="20" FontFamily="Courier New"
+                       VerticalAlignment="Center"/>
+            
         </StackPanel>
-        <Grid>
+        
+        <!--3 row-->
+        <Grid Margin="30 0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Price:"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Currency.priceUsd, StringFormat={}{0:C}}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Price:"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Currency.priceUsd, StringFormat={}{0:C}}"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="24h Change:"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Currency.changePercent24Hr, StringFormat={}{0:F}%}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="24h Change:"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Currency.changePercent24Hr, StringFormat={}{0:F}%}"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Market Cap:"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Currency.marketCapUsd, StringFormat={}{0:C}}"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Market Cap:"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Currency.marketCapUsd, StringFormat={}{0:C}}"/>
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Volume:"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Currency.volumeUsd24Hr, StringFormat={}{0:C}}"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Volume:"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Currency.volumeUsd24Hr, StringFormat={}{0:C}}"/>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Supply:"/>
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Currency.supply}"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Supply:"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Currency.supply, StringFormat={}{0:F}}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="MARKETS" HorizontalAlignment="Center" 
+                       FontFamily="Segoe UI Light" FontSize="16"/>
+            
+            <DataGrid ItemsSource="{Binding MarketList}" 
+                  GridLinesVisibility="None" 
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False"
+                  AutoGenerateColumns ="False"
+                  Grid.Column="2" Grid.Row="1" Grid.RowSpan="5">
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="Source" Binding="{Binding exchangeId}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Pairs" Binding="{Binding Pair}" />
+                    <DataGridTextColumn Width="*" Header="Price" Binding="{Binding priceUsd, StringFormat={}{0:C}}" />
+                    <DataGridTextColumn Width="auto" Header="Volume" Binding="{Binding Volume}" />
+                </DataGrid.Columns>
+                </DataGrid>
         </Grid>
     </StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using crypto.Library.Models;
+﻿using crypto.Library.Api;
+using crypto.Library.Models;
 using crypto.Stores;
 using Prism.Commands;
 using System;
@@ -13,10 +14,24 @@ namespace crypto.ViewModels
         private readonly NavigationStore _navigationStore;
         public CurrencyModel Currency { get; }
 
+        private List<MarketModel> _marketList;
+
+        public List<MarketModel> MarketList
+        {
+            get { return _marketList; }
+            private set 
+            { 
+                _marketList = value;
+                OnPropertyChanged(nameof(MarketList));
+            }
+        }
+
+
         public CurrencyDetailsViewModel(NavigationStore navigationStore, CurrencyModel currency)
         {
             _navigationStore = navigationStore;
             Currency = currency;
+            LoadedCommand = new DelegateCommand(LoadMarkets);
             GetBackCommand = new DelegateCommand(GoToCurrencyListView);
         }
 
@@ -25,6 +40,13 @@ namespace crypto.ViewModels
         private void GoToCurrencyListView()
         {
             _navigationStore.CurrentViewModel = new CurrencyListViewModel(_navigationStore);
+        }
+
+        private async void LoadMarkets()
+        {
+            var currencyEndpoint = new CurrencyEndpoint();
+
+            MarketList = await currencyEndpoint.GetMarketsByCurrencyId(Currency.id, 20, 0);
         }
     }
 }
